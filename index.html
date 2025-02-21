@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Pedidos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mb-4">Menú</h1>
+    
+    <!-- Contenedor dinámico para cargar productos agrupados por categoría desde LocalStorage -->
+    <div id="productos-container" class="mb-4">
+      <!-- Aquí se cargarán los productos dinámicamente -->
+    </div>
+    
+    <!-- (Opcional) Si querés mantener algunos productos estáticos de prueba, los podés dejar abajo -->
+    <!--
+    <h3>Platos Principales</h3>
+    <div class="row">
+      <div class="col-md-12">
+        ... (productos estáticos)
+      </div>
+    </div>
+    -->
+  </div>
+  
+  <!-- Modal para ver producto y proceder a agregar -->
+  <div class="modal fade" id="popup" tabindex="-1" aria-labelledby="popupLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Etapa 1: Información del producto -->
+        <div id="modalInfo">
+          <div class="modal-header">
+            <h5 class="modal-title" id="popupTitulo">Producto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img id="popupImagen" src="" alt="Imagen del producto" class="img-fluid mb-2">
+            <h6 id="popupDescripcion">Descripción</h6>
+            <p id="popupPrecio"></p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="btnProceder">Agregar</button>
+          </div>
+        </div>
+        <!-- Etapa 2: Personalizar pedido -->
+        <div id="modalCustomize" style="display: none;">
+          <div class="modal-header">
+            <h5 class="modal-title">Personaliza tu pedido</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <button class="btn btn-secondary" id="restar">-</button>
+              <span id="cantidad" class="mx-3">1</span>
+              <button class="btn btn-secondary" id="sumar">+</button>
+            </div>
+            <input type="text" class="form-control" id="comentario" placeholder="Comentario (opcional)">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" id="confirmarAgregar" data-bs-dismiss="modal">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ <!-- Modal del carrito -->
+<div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="carritoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Carrito</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="listaCarrito"></ul>
+          <p>Total: <span id="totalPedido">$0</span></p>
+          <form>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre y Apellido*" required>
+            <input type="text" class="form-control mt-2" id="domicilio" placeholder="Domicilio*" required>
+            <input type="text" class="form-control mt-2" id="entreCalles" placeholder="Entre calles">
+            <label class="mt-2">Forma de pago*</label>
+            <select class="form-control mt-1" id="formaPago">
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+            </select>
+            <input type="text" class="form-control mt-2" id="efectivoMonto" placeholder="Con cuánto?" style="display: none;">
+            <input type="text" class="form-control mt-2" id="comentarioPedido" placeholder="Comentario opcional">
+            <input type="text" class="form-control mt-2" id="cupon" placeholder="Tenés algún cupón">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" id="enviarPedido">Enviar pedido por WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <h5 id="confirmationMessage"></h5>
+        </div>
+      </div>
+    </div>
+  </div>  
+  
+  <!-- Barra fija del carrito -->
+  <div class="fixed-cart">
+    <button id="verCarrito" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#carrito">
+      🛒 Ver tu pedido - <span id="fixedTotal">$0</span>
+    </button>
+  </div>
+  
+  <!-- Script para cargar productos dinámicamente desde LocalStorage -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('productos-container');
+      let products = JSON.parse(localStorage.getItem('products')) || [];
+      container.innerHTML = "";
+      
+      // Filtrar productos activos y agruparlos por categoría
+      const activos = products.filter(product => product.activo);
+      const categories = {};
+      activos.forEach(product => {
+        if (!categories[product.categoria]) {
+          categories[product.categoria] = [];
+        }
+        categories[product.categoria].push(product);
+      });
+      
+      // Renderizar cada categoría
+      for (const cat in categories) {
+        const catHeading = document.createElement('h3');
+        catHeading.textContent = cat;
+        container.appendChild(catHeading);
+        categories[cat].forEach(product => {
+          const col = document.createElement('div');
+          col.className = "col-md-12";
+          col.innerHTML = `
+            <div class="producto d-flex align-items-center mb-3"
+                 data-nombre="${product.nombre}"
+                 data-precio="${product.precio}"
+                 data-imagen="${product.imagen}"
+                 data-descripcion="${product.descripcion}">
+              <img src="${product.imagen}" class="img-fluid me-3" alt="${product.nombre}">
+              <div>
+                <p>${product.nombre} - $${product.precio}</p>
+              </div>
+            </div>
+          `;
+          container.appendChild(col);
+        });
+      }
+    });
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

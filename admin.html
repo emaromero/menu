@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administración de Productos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <script>
+    // Protección sencilla con contraseña
+    const passwordCorrecta = "tuPassword123"; // Cambia esta contraseña
+    const pass = prompt("Ingrese la contraseña de administrador:");
+    if (pass !== passwordCorrecta) {
+      document.body.innerHTML = "<h1>Acceso denegado</h1>";
+      throw new Error("Acceso denegado");
+    }
+  </script>
+  
+  <div class="container">
+    <h1 class="my-4">Administración de Productos</h1>
+    
+    <!-- Formulario para agregar productos -->
+    <form id="productForm">
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" id="nombre" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <input type="text" id="descripcion" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="precio" class="form-label">Precio</label>
+        <input type="number" id="precio" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="imagen" class="form-label">Subir Imagen (1080x1080)</label>
+        <input type="file" id="imagen" class="form-control" accept="image/*" required>
+      </div>
+      <div class="mb-3">
+        <label for="categoria" class="form-label">Categoría</label>
+        <select id="categoria" class="form-select">
+          <option value="Platos Principales">Platos Principales</option>
+          <option value="Entradas">Entradas</option>
+          <option value="Empanadas">Empanadas</option>
+          <option value="Bebidas">Bebidas</option>
+          <option value="Postres">Postres</option>
+        </select>
+      </div>
+      <div class="form-check mb-3">
+        <input type="checkbox" id="activo" class="form-check-input" checked>
+        <label for="activo" class="form-check-label">Activo</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Agregar Producto</button>
+    </form>
+    
+    <hr>
+    <h2>Lista de Productos</h2>
+    <div id="productsByCategory">
+      <!-- Aquí se mostrarán los productos agrupados por categoría -->
+    </div>
+  </div>
+
+  <script>
+    // Funciones para manejar los productos en LocalStorage
+    function getProducts() {
+      const products = localStorage.getItem('products');
+      return products ? JSON.parse(products) : [];
+    }
+    function saveProducts(products) {
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+    function renderProducts() {
+      const container = document.getElementById('productsByCategory');
+      const products = getProducts();
+      // Agrupar por categoría
+      const categories = {};
+      products.forEach(product => {
+        if (!categories[product.categoria]) {
+          categories[product.categoria] = [];
+        }
+        categories[product.categoria].push(product);
+      });
+      container.innerHTML = "";
+      for (const cat in categories) {
+        const catDiv = document.createElement('div');
+        catDiv.className = "mb-4";
+        catDiv.innerHTML = `<h3>${cat}</h3>`;
+        const ul = document.createElement('ul');
+        ul.className = "list-group";
+        categories[cat].forEach((product, index) => {
+          const li = document.createElement('li');
+          li.className = "list-group-item d-flex justify-content-between align-items-center";
+          li.innerHTML = `<div>
+            <strong>${product.nombre}</strong> - ${product.descripcion} - $${product.precio} - ${product.activo ? 'Activo' : 'Inactivo'}
+          </div>`;
+          const btnGroup = document.createElement('div');
+          const btnDelete = document.createElement('button');
+          btnDelete.textContent = 'Eliminar';
+          btnDelete.className = 'btn btn-danger btn-sm me-2';
+          btnDelete.addEventListener('click', () => {
+            let products = getProducts();
+            // Se usa findIndex para identificar el producto (puedes mejorar el criterio de búsqueda)
+            const prodIndex = products.findIndex(p => p.nombre === product.nombre && p.descripcion === product.descripcion && p.precio === product.precio);
+            if(prodIndex !== -1) {
+              products.splice(prodIndex, 1);
+              saveProducts(products);
+              renderProducts();
+            }
+          });
+          const btnToggle = document.createElement('button');
+          btnToggle.textContent = product.activo ? 'Desactivar' : 'Activar';
+          btnToggle.className = 'btn btn-secondary btn-sm';
+          btnToggle.addEventListener('click', () => {
+            let products = getProducts();
+            const prodIndex = products.findIndex(p => p.nombre === product.nombre && p.descripcion === product.descripcion && p.precio === product.precio);
+            if(prodIndex !== -1) {
+              products[prodIndex].activo = !products[prodIndex].activo;
+              saveProducts(products);
+              renderProducts();
+            }
+          });
+          btnGroup.appendChild(btnDelete);
+          btnGroup.appendChild(btnToggle);
+          li.appendChild(btnGroup);
+          ul.appendChild(li);
+        });
+        catDiv.appendChild(ul);
+        container.appendChild(catDiv);
+      }
+    }
+
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const producto = {
+        nombre: document.getElementById('nombre').value,
+        descripcion: document.getElementById('descripcion').value,
+        precio: parseFloat(document.getElementById('precio').value),
+        categoria: document.getElementById('categoria').value,
+        activo: document.getElementById('activo').checked
+      };
+
+      // Procesar la imagen cargada y convertirla a Data URL
+      const imagenInput = document.getElementById('imagen');
+      const file = imagenInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          producto.imagen = event.target.result; // Data URL de la imagen
+          const products = getProducts();
+          products.push(producto);
+          saveProducts(products);
+          renderProducts();
+          document.getElementById('productForm').reset();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    renderProducts();
+  </script>
+</body>
+</html>
