@@ -1,152 +1,85 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const container = document.getElementById('productos-container');
-    let products = JSON.parse(localStorage.getItem('products')) || [];
-    container.innerHTML = "";
-    
-    // Filtrar productos activos y agruparlos por categoría
-    const activos = products.filter(product => product.activo);
-    const categories = {};
-    activos.forEach(product => {
-      if (!categories[product.categoria]) {
-        categories[product.categoria] = [];
-      }
-      categories[product.categoria].push(product);
-    });
-    
-    // Renderizar cada categoría en su propia sección
-    for (const cat in categories) {
-      // Sección para la categoría
-      const catSection = document.createElement('div');
-      catSection.classList.add("mb-4");
-      
-      // Encabezado de categoría
-      const catHeading = document.createElement('h3');
-      catHeading.textContent = cat;
-      catSection.appendChild(catHeading);
-      
-      // Row para los productos de la categoría
-      const row = document.createElement('div');
-      row.classList.add("row");
-      
-      categories[cat].forEach(product => {
-        const col = document.createElement('div');
-        col.className = "col-md-12";
-        col.innerHTML = `
-          <div class="producto d-flex align-items-center mb-3"
-               data-nombre="${product.nombre}"
-               data-precio="${product.precio}"
-               data-imagen="${product.imagen}"
-               data-descripcion="${product.descripcion}">
-            <img src="${product.imagen}" class="img-fluid me-3" alt="${product.nombre}">
-            <div>
-              <p>${product.nombre} - $${product.precio}</p>
-            </div>
-          </div>
-        `;
-        row.appendChild(col);
-      });
-      
-      catSection.appendChild(row);
-      container.appendChild(catSection);
-    }
-  });
-  
-document.addEventListener("DOMContentLoaded", () => {
-    let carrito = [];
-    const productos = document.querySelectorAll(".producto");
+document.addEventListener("DOMContentLoaded", async function () {
+    const SHEET_URL = "https://opensheet.elk.sh/1oVfG1dhrkutkOWe7hELdONDnQyRTtSYITpoYHvpTZLQ/menu";
+    const container = document.getElementById("productos-container");
     const listaCarrito = document.getElementById("listaCarrito");
     const totalPedido = document.getElementById("totalPedido");
     const fixedTotal = document.getElementById("fixedTotal");
-    // Elementos de Etapa 1 (Información del producto)
+    const verCarrito = document.getElementById("verCarrito");
+    const enviarPedido = document.getElementById("enviarPedido");
+    
+    const productoModal = new bootstrap.Modal(document.getElementById("popup"));
+    const personalizarModal = new bootstrap.Modal(document.getElementById("personalizar"));
+    const carritoModal = new bootstrap.Modal(document.getElementById("carrito"));
+    const confirmationModal = new bootstrap.Modal(document.getElementById("confirmationModal"));
+
     const popupTitulo = document.getElementById("popupTitulo");
+    const popupImagen = document.getElementById("popupImagen");
     const popupDescripcion = document.getElementById("popupDescripcion");
     const popupPrecio = document.getElementById("popupPrecio");
-    const popupImagen = document.getElementById("popupImagen");
     const btnProceder = document.getElementById("btnProceder");
-    // Elementos de Etapa 2 (Personalización del pedido)
-    const modalCustomize = document.getElementById("modalCustomize");
-    const cantidadElem = document.getElementById("cantidad");
-    const comentarioElem = document.getElementById("comentario");
-    const confirmarAgregar = document.getElementById("confirmarAgregar");
-    const sumarBtn = document.getElementById("sumar");
-    const restarBtn = document.getElementById("restar");
-    // Otros elementos
-    const formaPago = document.getElementById("formaPago");
-    const efectivoMonto = document.getElementById("efectivoMonto");
-    const enviarPedido = document.getElementById("enviarPedido");
 
+    const cantidadInput = document.getElementById("cantidadInput");
+    const comentarioInput = document.getElementById("comentarioInput");
+    const btnConfirmar = document.getElementById("btnConfirmar");
+
+    let carrito = [];
     let productoActual = {};
 
-    // Al hacer clic en cualquier producto, se abre el modal (Etapa 1)
-    productos.forEach(producto => {
-        producto.addEventListener("click", () => {
-            productoActual = {
-                nombre: producto.dataset.nombre,
-                descripcion: producto.dataset.descripcion,
-                precio: parseFloat(producto.dataset.precio),
-                imagen: producto.dataset.imagen,
-                cantidad: 1,
-                comentario: ""
-            };
-            popupTitulo.textContent = productoActual.nombre;
-            popupDescripcion.textContent = productoActual.descripcion;
-            popupPrecio.textContent = `$${productoActual.precio}`;
-            popupImagen.src = productoActual.imagen;
-            cantidadElem.textContent = productoActual.cantidad;
-            comentarioElem.value = "";
-            // Mostrar Etapa 1 y ocultar Etapa 2
-            document.getElementById("modalInfo").style.display = "block";
-            modalCustomize.style.display = "none";
-            // Abrir el modal programáticamente
-            let modalPopup = new bootstrap.Modal(document.getElementById("popup"));
-            modalPopup.show();
-        });
-    });
+    async function cargarProductos() {
+        try {
+            const response = await fetch(SHEET_URL);
+            const data = await response.json();
+            container.innerHTML = "";
 
-    // Al hacer clic en "Agregar" (Etapa 1), se pasa a la Etapa 2 para personalizar el pedido
-    btnProceder.addEventListener("click", () => {
-        document.getElementById("modalInfo").style.display = "none";
-        modalCustomize.style.display = "block";
-    });
-
-    // Controles de cantidad en Etapa 2
-    sumarBtn.addEventListener("click", () => {
-        productoActual.cantidad++;
-        cantidadElem.textContent = productoActual.cantidad;
-    });
-
-    restarBtn.addEventListener("click", () => {
-        if (productoActual.cantidad > 1) {
-            productoActual.cantidad--;
-            cantidadElem.textContent = productoActual.cantidad;
+            data.forEach(producto => {
+                if (producto.Activo === "SI") {
+                    const div = document.createElement("div");
+                    div.className = "producto d-flex align-items-center p-3 border rounded mb-3";
+                    div.innerHTML = `
+                        <img src="${producto.Imagen}" class="img-fluid me-3 rounded" style="width: 80px;">
+                        <div>
+                            <h5>${producto.Nombre}</h5>
+                            <p class="text-muted">${producto.Descripción}</p>
+                        </div>
+                        <strong class="ms-auto">$${parseFloat(producto.Precio).toFixed(2)}</strong>
+                    `;
+                    div.addEventListener("click", () => abrirModalProducto(producto));
+                    container.appendChild(div);
+                }
+            });
+        } catch (error) {
+            console.error("Error al cargar productos:", error);
         }
+    }
+
+    function abrirModalProducto(producto) {
+        productoActual = { ...producto, cantidad: 1, comentario: "" };
+        popupTitulo.textContent = producto.Nombre;
+        popupImagen.src = producto.Imagen;
+        popupDescripcion.textContent = producto.Descripción;
+        popupPrecio.textContent = `$${parseFloat(producto.Precio).toFixed(2)}`;
+        productoModal.show();
+    }
+
+    btnProceder.addEventListener("click", function () {
+        productoModal.hide();
+        personalizarModal.show();
     });
 
-    confirmarAgregar.addEventListener("click", () => {
-        productoActual.comentario = comentarioElem.value;
-        carrito.push({ ...productoActual });
+    document.getElementById("btnIncrementar").addEventListener("click", () => cantidadInput.value++);
+    document.getElementById("btnDecrementar").addEventListener("click", () => cantidadInput.value = Math.max(1, cantidadInput.value - 1));
+
+    btnConfirmar.addEventListener("click", function () {
+        productoActual.cantidad = parseInt(cantidadInput.value);
+        productoActual.comentario = comentarioInput.value;
+        carrito.push(productoActual);
         actualizarCarrito();
-        
-        // Mostrar modal de confirmación
-        let confModalEl = document.getElementById('confirmationModal');
-        let confModal = new bootstrap.Modal(confModalEl);
-        document.getElementById('confirmationMessage').innerHTML = `<span style="color: green; font-size: 2rem;">✅</span><br>${productoActual.nombre} ha sido agregado con éxito!`;
-        confModal.show();
-        
-        // Ocultar el modal automáticamente después de 1 segundo (1000 ms)
-        setTimeout(() => {
-          confModal.hide();
-        }, 1000);
-    });
-    
 
-    // Mostrar u ocultar el campo "Con cuánto?" según la forma de pago
-    formaPago.addEventListener("change", () => {
-        if (formaPago.value === "efectivo") {
-            efectivoMonto.style.display = "block";
-        } else {
-            efectivoMonto.style.display = "none";
-        }
+        document.getElementById('confirmationMessage').innerHTML = `<span style="color: green; font-size: 2rem;">✅</span><br>${productoActual.Nombre} ha sido agregado con éxito!`;
+        confirmationModal.show();
+        setTimeout(() => confirmationModal.hide(), 1000);
+
+        personalizarModal.hide();
     });
 
     function actualizarCarrito() {
@@ -155,44 +88,43 @@ document.addEventListener("DOMContentLoaded", () => {
         carrito.forEach((producto, index) => {
             const li = document.createElement("li");
             li.classList.add("d-flex", "justify-content-between", "align-items-center", "mb-2");
-            li.textContent = `${producto.cantidad}x ${producto.nombre} - $${producto.precio * producto.cantidad}` + (producto.comentario ? ` (${producto.comentario})` : "");
+            li.innerHTML = `${producto.cantidad}x ${producto.Nombre} - $${(producto.Precio * producto.cantidad).toFixed(2)} ${producto.comentario ? `(${producto.comentario})` : ""}`;
             const btnEliminar = document.createElement("button");
             btnEliminar.textContent = "X";
-            btnEliminar.classList.add("btn", "btn-danger");
+            btnEliminar.classList.add("btn", "btn-danger", "ms-2");
             btnEliminar.addEventListener("click", () => {
                 carrito.splice(index, 1);
                 actualizarCarrito();
             });
             li.appendChild(btnEliminar);
             listaCarrito.appendChild(li);
-            total += producto.precio * producto.cantidad;
+            total += producto.Precio * producto.cantidad;
         });
-        totalPedido.textContent = `$${total}`;
-        if (fixedTotal) {
-            fixedTotal.textContent = `$${total}`;
-        }
+        totalPedido.textContent = `$${total.toFixed(2)}`;
+        fixedTotal.textContent = `$${total.toFixed(2)}`;
     }
-    
+
+    document.getElementById("formaPago").addEventListener("change", function () {
+        document.getElementById("efectivoMonto").style.display = this.value === "efectivo" ? "block" : "none";
+    });
+
     enviarPedido.addEventListener("click", () => {
-        // Verificar que el total no sea $0
-        if (totalPedido.textContent.trim() === "$0") {
-          alert("El total debe ser mayor a $0 para enviar el pedido.");
-          return;
+        if (carrito.length === 0) {
+            alert("El carrito está vacío. Agrega productos antes de enviar el pedido.");
+            return;
         }
-        
-        // Si pasa la verificación, se procede a construir el mensaje y enviar el pedido por WhatsApp
+
         const nombre = document.getElementById("nombre").value;
         const domicilio = document.getElementById("domicilio").value;
         const entreCalles = document.getElementById("entreCalles").value;
-        const pago = formaPago.value;
-        const montoEfectivo = efectivoMonto.value;
+        const pago = document.getElementById("formaPago").value;
+        const montoEfectivo = document.getElementById("efectivoMonto").value;
         const comentarioPedido = document.getElementById("comentarioPedido").value;
         const cupon = document.getElementById("cupon").value;
         
-        let mensaje = `Hola! Quiero hacer un pedido:\n\n`;
+        let mensaje = "Hola! Quiero hacer un pedido:\n\n";
         carrito.forEach(prod => {
-          mensaje += `${prod.cantidad}x ${prod.nombre} - $${prod.precio * prod.cantidad}` +
-                     (prod.comentario ? ` (${prod.comentario})` : "") + `\n`;
+            mensaje += `${prod.cantidad}x ${prod.Nombre} - $${(prod.Precio * prod.cantidad).toFixed(2)} ${prod.comentario ? `(${prod.comentario})` : ""}\n`;
         });
         mensaje += `\nTotal: ${totalPedido.textContent}\n\n`;
         mensaje += `Nombre: ${nombre}\nDomicilio: ${domicilio}\nEntre calles: ${entreCalles}\nForma de pago: ${pago}`;
@@ -200,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
         mensaje += `\nComentario: ${comentarioPedido}\nCupón: ${cupon}\n`;
         
         window.open(`https://wa.me/5491148887566?text=${encodeURIComponent(mensaje)}`);
-      });
-      
+    });
+
+    verCarrito.addEventListener("click", () => carritoModal.show());
+    cargarProductos();
 });
