@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    // Elementos de la pantalla de bienvenida
+    const welcomeScreen = document.getElementById("welcome-screen");
+    const appContent = document.getElementById("app-content");
+    const enterBtn = document.getElementById("enter-btn");
+
+    // Elementos de la app
     const SHEET_URL = "https://opensheet.elk.sh/1oVfG1dhrkutkOWe7hELdONDnQyRTtSYITpoYHvpTZLQ/menu";
     const categoriasContainer = document.getElementById("categorias-container");
     const listaCarrito = document.getElementById("listaCarrito");
@@ -27,6 +33,31 @@ document.addEventListener("DOMContentLoaded", async function () {
     let productoActual = {};
     let tipoEnvio = "";
 
+    // Asegurarse de que la pantalla de bienvenida esté visible y la app oculta al inicio
+    welcomeScreen.classList.remove("hidden");
+    appContent.classList.add("hidden");
+
+    // Evento para el botón "Ingresar"
+    enterBtn.addEventListener("click", function () {
+        console.log("Botón Ingresar clickeado");
+        welcomeScreen.classList.add("hidden");
+        appContent.classList.remove("hidden");
+        
+        // Mostrar el spinner y cargar productos automáticamente
+        const loadingSpinner = document.getElementById("loading-spinner");
+        loadingSpinner.style.display = "flex"; // Mostrar spinner
+        cargarProductos()
+            .then(() => {
+                console.log("Productos cargados exitosamente");
+                loadingSpinner.style.display = "none"; // Ocultar spinner
+            })
+            .catch((error) => {
+                console.error("Error al cargar productos:", error);
+                loadingSpinner.style.display = "none";
+                alert("Hubo un error al cargar los productos.");
+            });
+    });
+
     function debounce(func, wait) {
         let timeout;
         return function (...args) {
@@ -35,30 +66,49 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
     }
 
-    window.addEventListener("scroll", debounce(() => {
-        const currentScroll = window.pageYOffset;
+    // Función para ajustar el carrito dinámicamente según el footer
+    function ajustarCarrito() {
+        const footerHeight = footer.offsetHeight;
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
-        const footerHeight = footer.offsetHeight;
+        const currentScroll = window.pageYOffset;
 
         if (currentScroll + windowHeight >= documentHeight - footerHeight) {
-            verCarrito.classList.add("fixed-above-footer");
             footer.classList.add("fixed");
+            // Cuando el footer está fijo, el carrito debe estar justo encima
+            verCarrito.style.transform = `translateY(-${footerHeight}px)`;
         } else {
-            verCarrito.classList.remove("fixed-above-footer");
             footer.classList.remove("fixed");
+            // Cuando el footer no está fijo, el carrito vuelve a su posición base
+            verCarrito.style.transform = "translateY(0)";
         }
-    }, 100));
+    }
+
+    // Escuchar el scroll para ajustar el carrito y footer
+    window.addEventListener("scroll", debounce(ajustarCarrito, 100));
+    window.addEventListener("resize", debounce(ajustarCarrito, 100)); // Ajustar también en redimensiones
+
+    // Llamar a la función al cargar para inicializar
+    ajustarCarrito();
 
     async function cargarProductos() {
+        const loadingSpinner = document.getElementById("loading-spinner");
         try {
+            console.log("Intentando cargar productos desde:", SHEET_URL);
+            loadingSpinner.style.display = "flex"; // Mostrar spinner
             const response = await fetch(SHEET_URL);
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
+            }
             const data = await response.json();
+            console.log("Datos recibidos:", data);
+
             categoriasContainer.innerHTML = "";
 
             const categorias = {};
             data.forEach(producto => {
-                if (producto.Activo === "SI") {
+                console.log("Procesando producto:", producto);
+                if (producto.Activo === "SI") { // Ajusta este valor si es diferente
                     const categoria = producto.Categoría || "Sin categoría";
                     if (!categorias[categoria]) {
                         categorias[categoria] = [];
@@ -66,6 +116,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     categorias[categoria].push(producto);
                 }
             });
+
+            if (Object.keys(categorias).length === 0) {
+                categoriasContainer.innerHTML = '<p class="text-danger">No hay productos disponibles.</p>';
+                loadingSpinner.style.display = "none";
+                return;
+            }
 
             Object.keys(categorias).forEach((categoria, index) => {
                 const accordionItem = document.createElement("div");
@@ -99,9 +155,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 categoriasContainer.appendChild(accordionItem);
             });
+            loadingSpinner.style.display = "none"; // Ocultar spinner
         } catch (error) {
             console.error("Error al cargar productos:", error);
             categoriasContainer.innerHTML = '<p class="text-danger">No se pudieron cargar los productos. Por favor, intenta de nuevo más tarde.</p>';
+            loadingSpinner.style.display = "none";
         }
     }
 
@@ -240,6 +298,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     verCarrito.addEventListener("click", () => carritoModal.show());
-    cargarProductos();
     actualizarCarrito();
 });

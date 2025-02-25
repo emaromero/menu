@@ -1,17 +1,22 @@
+/* Cargar la fuente personalizada */
+@font-face {
+    font-family: 'Baron Neue';
+    src: url('./fonts/Baron\ Neue.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Estilos generales */
 body {
-    background-color: #ffffff;
+    background-color: #000000;
     margin: 0;
     padding: 0;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     color: #000101;
 }
 
-/* Fuentes personalizadas */
-@import url('https://fonts.googleapis.com/css2?family=Bevan&display=swap');
-
 h1, h2, h5 {
-    font-family: 'Bevan', serif;
+    font-family: 'Baron Neue', sans-serif;
     color: #094229;
 }
 
@@ -30,13 +35,13 @@ h5 {
 }
 
 .text-muted, .accordion-button {
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     color: #0B361B;
 }
 
 /* Header */
 header {
-    background-color: #ffffff;
+    background-color: #000000;
     padding: 15px 0;
     text-align: center;
     top: 0;
@@ -63,8 +68,8 @@ header h1 {
 }
 
 header p {
-    font-family: 'Bobby Jones', sans-serif;
-    color: #0B361B;
+    font-family: 'Baron Neue', sans-serif;
+    color: #ffffff;
     margin: 0;
     font-size: 1rem;
 }
@@ -76,8 +81,8 @@ header p i {
 /* Contenedor principal */
 .container {
     padding: 20px;
-    margin-top: 150px; /* Ajustado para el header fijo */
-    margin-bottom: 80px; /* Espacio para el carrito */
+    margin-top: 150px;
+    margin-bottom: 80px;
 }
 
 /* Categorías (Accordion) */
@@ -87,7 +92,7 @@ header p i {
 
 .accordion-item {
     border: none;
-    background-color: #ffffff;
+    background-color: #000000;
     margin-bottom: 10px;
     box-shadow: 0 2px 5px rgba(0, 1, 1, 0.1);
 }
@@ -96,7 +101,7 @@ header p i {
     background-color: #167440;
     color: #ffffff;
     font-size: 1.2rem;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     border: none;
     transition: background-color 0.3s ease;
 }
@@ -121,7 +126,7 @@ header p i {
 }
 
 .accordion-body {
-    background-color: #ffffff;
+    background-color: #000000;
     padding: 15px;
 }
 
@@ -155,37 +160,52 @@ header p i {
 /* Carrito fijo */
 .fixed-cart {
     position: fixed;
-    bottom: 0;
+    bottom: 5px;
     left: 0;
     right: 0;
     background: #094229;
     color: #ffffff;
-    padding: 15px;
-    font-family: 'Bobby Jones', sans-serif;
+    padding: 20px 30px;
+    font-family: 'Baron Neue', sans-serif;
     text-align: center;
     z-index: 1000;
     width: 100%;
     max-width: 1140px;
     margin: 0 auto;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-radius: 25px;
     box-shadow: 0 -2px 5px rgba(0, 1, 1, 0.2);
-    transition: bottom 0.3s ease;
-}
-
-.fixed-cart.fixed-above-footer {
-    bottom: 80px;
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
 }
 
 .fixed-cart:hover {
-    background: #0B361B;
+    background: #856A00;
+    box-shadow: 0 -4px 10px rgba(0, 1, 1, 0.3);
+}
+
+.fixed-cart span#fixedTotal {
+    font-weight: bold;
+}
+
+/* Ocultar las flechas nativas del input de tipo number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
 }
 
 /* Botones */
 .btn-primary {
     background-color: #167440;
     border: none;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     transition: background-color 0.3s ease;
 }
 
@@ -196,7 +216,7 @@ header p i {
 .btn-success {
     background-color: #9BA45E;
     border: none;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     transition: background-color 0.3s ease;
 }
 
@@ -207,7 +227,7 @@ header p i {
 .btn-secondary {
     background-color: #000101;
     border: none;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     transition: background-color 0.3s ease;
 }
 
@@ -268,7 +288,7 @@ header p i {
 
 .form-control {
     border: 1px solid #9BA45E;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     border-radius: 8px;
 }
 
@@ -291,21 +311,20 @@ footer {
     background-color: #094229;
     color: #ffffff;
     text-align: center;
-    padding: 20px 0;
-    font-family: 'Bobby Jones', sans-serif;
+    font-family: 'Baron Neue', sans-serif;
     width: 100%;
-    height: 80px;
-    z-index: 1;
+    height: auto;
+    min-height: 80px;
+    z-index: 900;
     transition: position 0.3s ease;
-}
-
-footer.fixed {
-    position: fixed;
-    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 footer a {
-    color: #9BA45E;
+    color: #fafafa;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -315,13 +334,96 @@ footer a:hover {
 }
 
 footer .social-icons a {
-    margin: 0 10px;
-    font-size: 1.5rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 1.8rem;
 }
 
 footer .designed-by {
-    font-size: 0.8rem;
-    margin-top: 15px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* Spinner (Loader) */
+
+/* Estilo para el spinner centrado en pantalla */
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+}
+
+#loading-spinner .loader {
+    animation: rotate 1s infinite;
+    height: 50px;
+    width: 50px;
+    margin: 0;
+}
+
+.loader:before,
+.loader:after {
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 20px;
+    width: 20px;
+}
+
+.loader:before {
+    animation: ball1 1s infinite;
+    background-color: #ffffff;
+    box-shadow: 30px 0 0 #167440;
+    margin-bottom: 10px;
+}
+
+.loader:after {
+    animation: ball2 1s infinite;
+    background-color: #167440;
+    box-shadow: 30px 0 0 #ffffff;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg) scale(0.8); }
+    50% { transform: rotate(360deg) scale(1.2); }
+    100% { transform: rotate(720deg) scale(0.8); }
+}
+
+@keyframes ball1 {
+    0% {
+        box-shadow: 30px 0 0 #167440;
+    }
+    50% {
+        box-shadow: 0 0 0 #167440;
+        margin-bottom: 0;
+        transform: translate(15px, 15px);
+    }
+    100% {
+        box-shadow: 30px 0 0 #167440;
+        margin-bottom: 10px;
+    }
+}
+
+@keyframes ball2 {
+    0% {
+        box-shadow: 30px 0 0 #ffffff;
+    }
+    50% {
+        box-shadow: 0 0 0 #ffffff;
+        margin-top: -20px;
+        transform: translate(15px, 15px);
+    }
+    100% {
+        box-shadow: 30px 0 0 #ffffff;
+        margin-top: 0;
+    }
 }
 
 /* Media Queries para móviles */
@@ -343,6 +445,84 @@ footer .designed-by {
         font-size: 0.9rem;
     }
     .container {
-        margin-top: 120px; /* Menor espacio en móviles */
+        margin-top: 120px;
+    }
+}
+
+/* Pantalla de bienvenida */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/images/background-looki.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.welcome-content {
+    text-align: center;
+    color: #ffffff;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+}
+
+.welcome-content h2 {
+    color: #ffffff;
+}
+
+.welcome-content img.logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.welcome-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Botón Loki */
+.btn-loki {
+    background-color: #1b4332;
+    color: #ffd60a;
+    border: 2px solid #ffd60a;
+    font-family: 'Baron Neue', sans-serif;
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    border-radius: 25px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-loki:hover {
+    background-color: #ffd60a;
+    color: #1b4332;
+    box-shadow: 0 0 15px rgba(255, 214, 10, 0.8);
+}
+
+/* Clase para ocultar contenido */
+.hidden {
+    display: none;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 576px) {
+    .welcome-content h2 {
+        font-size: 1.2rem;
+    }
+    .btn-loki {
+        font-size: 1rem;
+        padding: 8px 20px;
+    }
+    .welcome-content img.logo {
+        max-width: 100px;
     }
 }
