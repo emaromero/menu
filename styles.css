@@ -41,7 +41,10 @@ h5 {
 
 /* Header */
 header {
-    background-color: #000000;
+    background-image: url('/images/fondo-header1.jpg');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
     padding: 15px 0;
     text-align: center;
     top: 0;
@@ -78,13 +81,6 @@ header p i {
     margin-right: 5px;
 }
 
-/* Contenedor principal */
-.container {
-    padding: 20px;
-    margin-top: 150px;
-    margin-bottom: 80px;
-}
-
 /* Categorías (Accordion) */
 #categorias-container {
     margin-bottom: 80px;
@@ -92,27 +88,40 @@ header p i {
 
 .accordion-item {
     border: none;
-    background-color: #000000;
+    background-color: #1a1a1a;
     margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 1, 1, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .accordion-button {
-    background-color: #167440;
-    color: #ffffff;
+    background-image: url('/images/fondo-acordeon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #000000;
     font-size: 1.2rem;
     font-family: 'Baron Neue', sans-serif;
     border: none;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Añadí transform a la transición */
+}
+
+.accordion-button:hover {
+    transform: translateY(-2px); /* Sube 2px al pasar el cursor */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más grande para efecto de elevación */
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #094229;
-    color: #ffffff;
+    background-image: url('/images/fondo-acordeon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .accordion-button:focus {
-    box-shadow: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     outline: none;
 }
 
@@ -126,8 +135,9 @@ header p i {
 }
 
 .accordion-body {
-    background-color: #000000;
+    background-color: #1a1a1a;
     padding: 15px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Productos */
@@ -182,8 +192,12 @@ header p i {
 }
 
 .fixed-cart:hover {
-    background: #856A00;
-    box-shadow: 0 -4px 10px rgba(0, 1, 1, 0.3);
+    background-image: url('/images/fondo-acordeon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #000000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .fixed-cart span#fixedTotal {
@@ -456,7 +470,7 @@ footer .designed-by {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-image: url('/images/background-looki.jpg');
+    background-image: url('/images/background-looki.png');
     background-size: cover;
     background-position: center;
     display: flex;
