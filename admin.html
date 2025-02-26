@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- admin.html
+     * Copyright @cloverdigital.arg 2025
+     * Página de administración para gestionar productos de Looki Bar, con autenticación por contraseña,
+     * carga de productos desde Google Sheets y visualización en una lista organizada por categorías.
+     -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Administración de Productos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
+        /* Clase para ocultar elementos inicialmente */
         .hidden { display: none; }
-        .loader { text-align: center; padding: 20px; }
+
+        /* Estilo para el loader de carga, centrado en el contenedor */
+        .loader {
+            text-align: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
     <script>
+        // Script para autenticación al cargar la página
         document.addEventListener("DOMContentLoaded", function () {
-            const passwordCorrecta = ""; // Cambia esta contraseña
-            const pass = prompt("Ingrese la contraseña de administrador:");
+            const passwordCorrecta = ""; // Cambia esta contraseña para la autenticación del administrador
+            const pass = prompt("Ingrese la contraseña de administrador:"); // Solicita la contraseña al usuario
             if (pass !== passwordCorrecta) {
+                // Si la contraseña es incorrecta, muestra un mensaje de acceso denegado
                 document.body.innerHTML = "<h2 class='text-center text-danger mt-5'>Acceso denegado</h2>";
             }
         });
     </script>
 
+    <!-- Contenedor principal del panel de administración -->
     <div class="container" id="admin-panel">
         <h1 class="my-4 text-center">Administración de Productos</h1>
         <div class="loader hidden" id="loader"><span class="loader"></span></div>
@@ -29,60 +45,70 @@
     </div>
 
     <script>
+        // Script para cargar y gestionar productos en el panel de administración
         document.addEventListener('DOMContentLoaded', function () {
-            const container = document.getElementById('productos-container');
-            const loader = document.getElementById('loader');
-            const mensaje = document.getElementById('mensaje');
-            const SHEET_URL = 'https://opensheet.elk.sh/1oVfG1dhrkutkOWe7hELdONDnQyRTtSYITpoYHvpTZLQ/menu';
+            // Elementos del DOM necesarios para la funcionalidad
+            const container = document.getElementById('productos-container'); // Contenedor de los productos
+            const loader = document.getElementById('loader'); // Elemento del loader de carga
+            const mensaje = document.getElementById('mensaje'); // Elemento para mensajes de estado
+            const SHEET_URL = 'https://opensheet.elk.sh/1oVfG1dhrkutkOWe7hELdONDnQyRTtSYITpoYHvpTZLQ/menu'; // URL de la hoja de cálculo de Google Sheets
 
+            // Función para cargar los productos desde Google Sheets
             function cargarProductos() {
-                loader.classList.remove('hidden'); // Muestra el loader mientras carga
-                fetch(SHEET_URL)
-                    .then(response => response.json())
+                loader.classList.remove('hidden'); // Muestra el loader mientras se cargan los datos
+                fetch(SHEET_URL) // Realiza la solicitud a la API de Google Sheets
+                    .then(response => response.json()) // Convierte la respuesta a JSON
                     .then(data => {
-                        console.log("📥 Datos recibidos de Google Sheets:", data); // DEBUG
+                        console.log("📥 Datos recibidos de Google Sheets:", data); // Log para depuración
 
+                        // Mapea los datos de la hoja a un formato de producto más manejable
                         const productos = data.map(row => ({
-                            nombre: row.Nombre || "Sin nombre",
-                            descripcion: row.Descripción || "Sin descripción",
-                            precio: row.Precio ? parseFloat(row.Precio) : 0,
-                            imagen: row.Imagen && row.Imagen.trim() !== "" ? row.Imagen : "https://via.placeholder.com/150",
-                            categoria: row.Categoría || "Sin categoría",
-                            activo: row.Activo === "SI"
+                            nombre: row.Nombre || "Sin nombre", // Nombre del producto, por defecto "Sin nombre"
+                            descripcion: row.Descripción || "Sin descripción", // Descripción, por defecto "Sin descripción"
+                            precio: row.Precio ? parseFloat(row.Precio) : 0, // Precio como número, por defecto 0
+                            imagen: row.Imagen && row.Imagen.trim() !== "" ? row.Imagen : "https://via.placeholder.com/150", // URL de la imagen o placeholder
+                            categoria: row.Categoría || "Sin categoría", // Categoría, por defecto "Sin categoría"
+                            activo: row.Activo === "SI" // Booleano para productos activos (ajusta según el valor real)
                         }));
 
+                        // Guarda los productos en localStorage para posible uso futuro
                         localStorage.setItem('productos', JSON.stringify(productos));
-                        renderizarProductos(productos);
-                        loader.classList.add('hidden'); // Oculta el loader
-                        mensaje.innerHTML = "✅ Productos actualizados correctamente.";
+                        renderizarProductos(productos); // Renderiza los productos en la interfaz
+                        loader.classList.add('hidden'); // Oculta el loader al completar
+                        mensaje.innerHTML = "✅ Productos actualizados correctamente."; // Mensaje de éxito
                     })
                     .catch(error => {
-                        console.error('❌ Error al obtener los productos:', error);
+                        console.error('❌ Error al obtener los productos:', error); // Log de error detallado
                         loader.classList.add('hidden'); // Oculta el loader en caso de error
-                        mensaje.innerHTML = "❌ Error al cargar productos.";
+                        mensaje.innerHTML = "❌ Error al cargar productos."; // Mensaje de error
                     });
             }
 
+            // Función para renderizar los productos en la interfaz, organizados por categorías
             function renderizarProductos(products) {
-                container.innerHTML = "";
-                const activos = products.filter(product => product.activo);
+                container.innerHTML = ""; // Limpia el contenedor antes de renderizar
+                const activos = products.filter(product => product.activo); // Filtra solo los productos activos
                 if (activos.length === 0) {
+                    // Si no hay productos activos, muestra un mensaje
                     container.innerHTML = "<p>No hay productos disponibles.</p>";
                     return;
                 }
+
+                // Organiza los productos por categorías
                 const categories = {};
                 activos.forEach(product => {
-                    if (!categories[product.categoria]) categories[product.categoria] = [];
-                    categories[product.categoria].push(product);
+                    if (!categories[product.categoria]) categories[product.categoria] = []; // Inicializa array si no existe
+                    categories[product.categoria].push(product); // Agrega el producto a su categoría
                 });
 
+                // Renderiza cada categoría y sus productos
                 for (const cat in categories) {
                     const catSection = document.createElement('div');
-                    catSection.classList.add("mb-4");
-                    catSection.innerHTML = `<h3>${cat}</h3>`;
+                    catSection.classList.add("mb-4"); // Margen inferior para separación
+                    catSection.innerHTML = `<h3>${cat}</h3>`; // Título de la categoría
                     categories[cat].forEach(product => {
                         const productDiv = document.createElement('div');
-                        productDiv.className = "producto d-flex align-items-center mb-3 p-3 border rounded";
+                        productDiv.className = "producto d-flex align-items-center mb-3 p-3 border rounded"; // Clases de Bootstrap para diseño
                         productDiv.innerHTML = `
                             <img src="${product.imagen}" class="img-fluid me-3" alt="${product.nombre}" style="width: 80px; height: 80px; object-fit: cover;">
                             <div>
@@ -91,13 +117,13 @@
                             </div>
                             <strong class="ms-auto">$${product.precio.toFixed(2)}</strong>
                         `;
-                        catSection.appendChild(productDiv);
+                        catSection.appendChild(productDiv); // Agrega el producto a la sección de la categoría
                     });
-                    container.appendChild(catSection);
+                    container.appendChild(catSection); // Agrega la sección al contenedor principal
                 }
             }
 
-            // 🚀 Cargar productos automáticamente al entrar
+            // Carga los productos automáticamente al entrar en la página
             cargarProductos();
         });
     </script>

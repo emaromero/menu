@@ -1,4 +1,10 @@
-/* Cargar la fuente personalizada */
+/* styles.css
+ * Copyright @cloverdigital.arg 2025
+ * Estilos generales para el sitio web de Looki Bar, incluyendo tipografía personalizada, diseño del
+ * header, acordeón, footer, modales, carrito fijo, y responsive design con media queries.
+ */
+
+/* Cargar la fuente personalizada 'Baron Neue' para consistencia en el diseño */
 @font-face {
     font-family: 'Baron Neue';
     src: url('./fonts/Baron\ Neue.otf') format('opentype');
@@ -6,125 +12,132 @@
     font-style: normal;
 }
 
-/* Estilos generales */
+/* Estilos generales para el cuerpo de la página */
 body {
-    background-color: #000000;
+    background-color: #000000; /* Fondo negro para un diseño oscuro y elegante */
     margin: 0;
     padding: 0;
-    font-family: 'Baron Neue', sans-serif;
-    color: #000101;
+    font-family: 'Baron Neue', sans-serif; /* Fuente personalizada para todo el sitio */
+    color: #000101; /* Color de texto principal, casi negro */
 }
 
+/* Estilos para encabezados (h1, h2, h5) */
 h1, h2, h5 {
-    font-family: 'Baron Neue', sans-serif;
-    color: #094229;
+    font-family: 'Baron Neue', sans-serif; /* Mantiene la fuente personalizada */
+    color: #094229; /* Verde oscuro para títulos, coherente con el branding */
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem; /* Tamaño grande para títulos principales */
+    margin-bottom: 2rem; /* Espacio inferior para separación */
 }
 
 h5 {
-    font-size: 1.25rem;
+    font-size: 1.25rem; /* Tamaño mediano para subtítulos o títulos de secciones */
 }
 
-/* Título del modal en blanco */
+/* Título del modal en blanco para contraste con el fondo oscuro */
 .modal-header h5 {
-    color: #ffffff;
+    color: #ffffff; /* Texto blanco para mejorar la legibilidad en el modal */
 }
 
+/* Estilos para textos mutados y botones del acordeón */
 .text-muted, .accordion-button {
-    font-family: 'Baron Neue', sans-serif;
-    color: #0B361B;
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    color: #0B361B; /* Verde oscuro para textos secundarios o botones */
 }
 
-/* Header */
+/* Estilos para el header (encabezado superior) */
 header {
-    background-image: url('/images/fondo-header1.jpg');
-    background-repeat: no-repeat;
-    background-size: auto;
-    background-position: center;
-    padding: 15px 0;
-    text-align: center;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 1, 1, 0.1);
+    background-image: url('/images/fondo-header1.jpg'); /* Imagen de fondo para el header */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: auto; /* Mantiene las proporciones originales de la imagen */
+    background-position: center; /* Centra la imagen horizontal y verticalmente */
+    padding: 15px 0; /* Espaciado vertical */
+    text-align: center; /* Centra el texto */
+    top: 0; /* Fija el header en la parte superior */
+    width: 100%; /* Ocupa todo el ancho */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    box-shadow: 0 2px 5px rgba(0, 1, 1, 0.1); /* Sombra ligera para profundidad */
 }
 
 .header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; /* Usa flexbox para alinear elementos */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
 }
 
 header img.logo {
-    max-width: 100px;
-    margin-bottom: 10px;
+    max-width: 100px; /* Limita el tamaño del logo */
+    margin-bottom: 10px; /* Espacio debajo del logo */
 }
 
 header h1 {
-    font-size: 1.8rem;
-    margin: 0;
-    margin-bottom: 10px;
+    font-size: 1.8rem; /* Tamaño del título en el header */
+    margin: 0; /* Quita márgenes predeterminados */
+    margin-bottom: 10px; /* Espacio inferior */
 }
 
 header p {
-    font-family: 'Baron Neue', sans-serif;
-    color: #ffffff;
-    margin: 0;
-    font-size: 1rem;
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    color: #ffffff; /* Texto blanco para contraste con el fondo oscuro */
+    margin: 0; /* Quita márgenes predeterminados */
+    font-size: 1rem; /* Tamaño de fuente legible */
 }
 
 header p i {
-    margin-right: 5px;
+    margin-right: 5px; /* Espacio a la derecha del ícono de reloj */
 }
 
-/* Categorías (Accordion) */
+/* Estilos para el contenedor de categorías (Accordion) */
 #categorias-container {
-    margin-bottom: 80px;
+    margin-bottom: 80px; /* Espacio inferior para separación con otros elementos */
 }
 
+/* Estilos para cada item del acordeón */
 .accordion-item {
-    border: none;
-    background-color: #1a1a1a;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: none; /* Sin borde para un diseño limpio */
+    background-color: #1a1a1a; /* Fondo oscuro para consistencia visual */
+    margin-bottom: 10px; /* Espacio entre ítems */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para profundidad */
 }
 
+/* Estilos para los botones del acordeón */
 .accordion-button {
-    background-image: url('/images/fondo-acordeon.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: #000000;
-    font-size: 1.2rem;
-    font-family: 'Baron Neue', sans-serif;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Añadí transform a la transición */
+    background-image: url('/images/fondo-acordeon.png'); /* Imagen de fondo para el botón */
+    background-size: cover; /* Ajusta la imagen para cubrir el botón */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita repetición de la imagen */
+    color: #000000; /* Texto negro para contraste con la imagen */
+    font-size: 1.2rem; /* Tamaño de fuente legible */
+    font-family: 'Baron Neue', sans-serif; /* Fuente personalizada */
+    border: none; /* Sin borde para un diseño limpio */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra sutil para efecto 3D */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Transición suave para interacciones */
 }
 
 .accordion-button:hover {
-    transform: translateY(-2px); /* Sube 2px al pasar el cursor */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más grande para efecto de elevación */
+    transform: translateY(-2px); /* Efecto de elevación al pasar el cursor */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al hover */
 }
 
+/* Estilos para el botón cuando está expandido */
 .accordion-button:not(.collapsed) {
-    background-image: url('/images/fondo-acordeon.png');
+    background-image: url('/images/fondo-acordeon.png'); /* Mantiene la misma imagen */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: #000000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #000000; /* Texto negro para consistencia */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra más intensa al abrir */
 }
 
+/* Estilos para el foco del botón */
 .accordion-button:focus {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Resplandor oscuro al enfocar */
+    outline: none; /* Quita el outline predeterminado */
 }
 
+/* Estilos para la flecha del acordeón (usando SVG) */
 .accordion-button::after {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
@@ -134,409 +147,408 @@ header p i {
     transform: rotate(180deg);
 }
 
+/* Estilos para el cuerpo del acordeón */
 .accordion-body {
-    background-color: #1a1a1a;
-    padding: 15px;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: #1a1a1a; /* Fondo oscuro para consistencia */
+    padding: 15px; /* Espaciado interno */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra interna para profundidad */
 }
 
-/* Productos */
+/* Estilos para los productos dentro del acordeón */
 .producto {
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background-color: #ffffff;
-    border: 1px solid #9BA45E;
-    border-radius: 10px;
+    cursor: pointer; /* Cambia el cursor para indicar interactividad */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animación suave para hover */
+    background-color: #ffffff; /* Fondo blanco para los productos */
+    border: 1px solid #9BA45E; /* Borde verde claro para contraste */
+    border-radius: 10px; /* Bordes redondeados */
 }
 
 .producto:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0, 1, 1, 0.2);
-    background-color: #f8f9fa;
+    transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
+    box-shadow: 0 4px 10px rgba(0, 1, 1, 0.2); /* Sombra más pronunciada al hover */
+    background-color: #f8f9fa; /* Fondo más claro al hover */
 }
 
 .producto img {
-    border-radius: 8px;
+    border-radius: 8px; /* Bordes redondeados para las imágenes */
 }
 
 .producto h5 {
-    font-weight: bold;
+    font-weight: bold; /* Títulos en negrita para destacar */
 }
 
 .producto strong {
-    color: #167440;
+    color: #167440; /* Precios en verde oscuro para consistencia con el branding */
 }
 
-/* Carrito fijo */
+/* Estilos para el carrito fijo en la parte inferior */
 .fixed-cart {
-    position: fixed;
-    bottom: 5px;
+    position: fixed; /* Fija el carrito en la parte inferior de la pantalla */
+    bottom: 5px; /* Margen inferior pequeño */
     left: 0;
     right: 0;
-    background: #094229;
-    color: #ffffff;
-    padding: 20px 30px;
-    font-family: 'Baron Neue', sans-serif;
-    text-align: center;
-    z-index: 1000;
-    width: 100%;
-    max-width: 1140px;
-    margin: 0 auto;
-    border-radius: 25px;
-    box-shadow: 0 -2px 5px rgba(0, 1, 1, 0.2);
-    transition: transform 0.3s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1.2rem;
+    background: #094229; /* Fondo verde oscuro */
+    color: #ffffff; /* Texto blanco para contraste */
+    padding: 20px 30px; /* Espaciado interno */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    text-align: center; /* Centra el texto */
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    width: 100%; /* Ocupa todo el ancho */
+    max-width: 1140px; /* Limita el ancho máximo */
+    margin: 0 auto; /* Centra horizontalmente */
+    border-radius: 25px; /* Bordes redondeados */
+    box-shadow: 0 -2px 5px rgba(0, 1, 1, 0.2); /* Sombra para profundidad */
+    transition: transform 0.3s ease; /* Transición suave para interacciones */
+    display: flex; /* Usa flexbox para alinear elementos */
+    justify-content: space-between; /* Espacia el texto y el total */
+    align-items: center; /* Alinea verticalmente los elementos */
+    font-size: 1.2rem; /* Tamaño de fuente legible */
 }
 
 .fixed-cart:hover {
-    background-image: url('/images/fondo-acordeon.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: #000000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background-image: url('/images/fondo-acordeon.png'); /* Cambia a la imagen de fondo al hover */
+    background-size: cover; /* Ajusta la imagen para cubrir el botón */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita repetición de la imagen */
+    color: #000000; /* Texto negro para contraste con la imagen */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra más intensa al hover */
 }
 
 .fixed-cart span#fixedTotal {
-    font-weight: bold;
+    font-weight: bold; /* Resalta el total en negrita */
 }
 
-/* Ocultar las flechas nativas del input de tipo number */
+/* Ocultar las flechas nativas de los inputs de tipo number */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
+    -webkit-appearance: none; /* Quita las flechas en Chrome */
     margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield; /* Para Firefox */
+    -moz-appearance: textfield; /* Quita las flechas en Firefox */
 }
 
-/* Botones */
+/* Estilos para botones principales */
 .btn-primary {
-    background-color: #167440;
-    border: none;
-    font-family: 'Baron Neue', sans-serif;
-    transition: background-color 0.3s ease;
+    background-color: #167440; /* Verde oscuro para botones primarios */
+    border: none; /* Sin borde para un diseño limpio */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
 }
 
 .btn-primary:hover {
-    background-color: #094229;
+    background-color: #094229; /* Verde más oscuro al pasar el cursor */
 }
 
 .btn-success {
-    background-color: #9BA45E;
-    border: none;
-    font-family: 'Baron Neue', sans-serif;
-    transition: background-color 0.3s ease;
+    background-color: #9BA45E; /* Verde claro para botones de éxito */
+    border: none; /* Sin borde para un diseño limpio */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
 }
 
 .btn-success:hover {
-    background-color: #167440;
+    background-color: #167440; /* Verde oscuro al pasar el cursor */
 }
 
 .btn-secondary {
-    background-color: #000101;
-    border: none;
-    font-family: 'Baron Neue', sans-serif;
-    transition: background-color 0.3s ease;
+    background-color: #000101; /* Negro casi puro para botones secundarios */
+    border: none; /* Sin borde para un diseño limpio */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
 }
 
 .btn-secondary:hover {
-    background-color: #094229;
+    background-color: #094229; /* Verde oscuro al pasar el cursor */
 }
 
 .btn-active {
-    background-color: #9BA45E !important;
-    color: #ffffff !important;
+    background-color: #9BA45E !important; /* Verde claro para botones activos */
+    color: #ffffff !important; /* Texto blanco para contraste */
 }
 
 .quantity-btn {
-    width: 40px;
-    height: 40px;
-    background-color: #167440;
-    color: #ffffff;
-    border: none;
+    width: 40px; /* Ancho fijo para botones de cantidad */
+    height: 40px; /* Alto fijo para botones de cantidad */
+    background-color: #167440; /* Verde oscuro */
+    color: #ffffff; /* Texto blanco para contraste */
+    border: none; /* Sin borde para un diseño limpio */
 }
 
 .quantity-btn:hover {
-    background-color: #094229;
+    background-color: #094229; /* Verde más oscuro al pasar el cursor */
 }
 
-/* Formularios y modales */
+/* Estilos para formularios y modales */
 .modal-content {
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 5px 15px rgba(0, 1, 1, 0.3);
+    border-radius: 15px; /* Bordes redondeados para el modal */
+    border: none; /* Sin borde para un diseño limpio */
+    box-shadow: 0 5px 15px rgba(0, 1, 1, 0.3); /* Sombra para profundidad */
 }
 
 .modal-header {
-    background-color: #094229;
-    color: #ffffff;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    background-color: #094229; /* Fondo verde oscuro para el encabezado del modal */
+    color: #ffffff; /* Texto blanco para contraste */
+    border-top-left-radius: 15px; /* Bordes redondeados superiores izquierda */
+    border-top-right-radius: 15px; /* Bordes redondeados superiores derecha */
 }
 
 .modal-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; /* Usa flexbox para alinear elementos */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
 }
 
 .modal-body strong {
-    margin-right: 10px;
+    margin-right: 10px; /* Espacio a la derecha del texto en negrita */
 }
 
 .modal-body .btn-primary {
-    margin-left: 10px;
+    margin-left: 10px; /* Espacio a la izquierda del botón primario */
 }
 
 .price-button-container {
-    display: flex;
-    align-items: center;
-    margin-top: 15px;
+    display: flex; /* Usa flexbox para alinear precio y botón */
+    align-items: center; /* Alinea verticalmente los elementos */
+    margin-top: 15px; /* Espacio superior */
 }
 
 .form-control {
-    border: 1px solid #9BA45E;
-    font-family: 'Baron Neue', sans-serif;
-    border-radius: 8px;
+    border: 1px solid #9BA45E; /* Borde verde claro para inputs */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    border-radius: 8px; /* Bordes redondeados para inputs */
 }
 
 .form-control:focus {
-    border-color: #167440;
-    box-shadow: 0 0 5px rgba(22, 116, 64, 0.5);
+    border-color: #167440; /* Borde verde oscuro al enfocar */
+    box-shadow: 0 0 5px rgba(22, 116, 64, 0.5); /* Sombra ligera al enfocar */
 }
 
-/* Mini mapa */
+/* Estilos para el mini mapa en el modal del carrito */
 .mini-mapa {
-    width: 100%;
-    height: 200px;
-    border: 0;
-    border-radius: 10px;
-    margin-top: 10px;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    height: 200px; /* Altura fija para el mapa */
+    border: 0; /* Sin borde para un diseño limpio */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-top: 10px; /* Espacio superior */
 }
 
-/* Footer */
+/* Estilos para el footer (pie de página) */
 footer {
-    background-color: #094229;
-    color: #ffffff;
-    text-align: center;
-    font-family: 'Baron Neue', sans-serif;
-    width: 100%;
-    height: auto;
-    min-height: 80px;
-    z-index: 900;
-    transition: position 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: #094229; /* Fondo verde oscuro */
+    color: #ffffff; /* Texto blanco para contraste */
+    text-align: center; /* Centra el texto */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    width: 100%; /* Ocupa todo el ancho */
+    height: auto; /* Altura automática según contenido */
+    min-height: 80px; /* Altura mínima para evitar colapso */
+    z-index: 900; /* Asegura que esté sobre otros elementos */
+    transition: position 0.3s ease; /* Transición suave para cambios de posición */
+    display: flex; /* Usa flexbox para alinear elementos */
+    flex-direction: column; /* Apila los elementos verticalmente */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
 }
 
 footer a {
-    color: #fafafa;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    color: #fafafa; /* Texto gris claro para enlaces */
+    text-decoration: none; /* Sin subrayado para enlaces */
+    transition: color 0.3s ease; /* Transición suave para cambio de color */
 }
 
 footer a:hover {
-    color: #167440;
+    color: #167440; /* Verde oscuro al pasar el cursor */
 }
 
 footer .social-icons a {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-size: 1.8rem;
+    margin-top: 5px; /* Espacio superior para íconos */
+    margin-bottom: 5px; /* Espacio inferior para íconos */
+    font-size: 1.8rem; /* Tamaño grande para íconos de redes sociales */
 }
 
 footer .designed-by {
-    font-size: 0.9rem;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    font-size: 0.9rem; /* Tamaño pequeño para créditos */
+    margin-top: 10px; /* Espacio superior */
+    margin-bottom: 5px; /* Espacio inferior */
 }
 
-/* Spinner (Loader) */
-
-/* Estilo para el spinner centrado en pantalla */
+/* Estilos para el spinner (Loader) centrado en pantalla */
 #loading-spinner {
-    position: fixed;
+    position: fixed; /* Fija el spinner en la pantalla */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    width: 100%; /* Ocupa todo el ancho */
+    height: 100%; /* Ocupa toda la altura */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente oscuro */
     display: none; /* Oculto por defecto */
-    justify-content: center;
-    align-items: center;
-    z-index: 3000;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    z-index: 3000; /* Asegura que esté sobre otros elementos */
 }
 
 #loading-spinner .loader {
-    animation: rotate 1s infinite;
-    height: 50px;
-    width: 50px;
-    margin: 0;
+    animation: rotate 1s infinite; /* Animación de rotación infinita */
+    height: 50px; /* Tamaño del loader */
+    width: 50px; /* Tamaño del loader */
+    margin: 0; /* Sin márgenes */
 }
 
 .loader:before,
 .loader:after {
-    border-radius: 50%;
-    content: "";
-    display: block;
-    height: 20px;
-    width: 20px;
+    border-radius: 50%; /* Bordes redondeados para las bolas */
+    content: ""; /* Contenido vacío para pseudo-elementos */
+    display: block; /* Bloque para posicionamiento */
+    height: 20px; /* Tamaño de las bolas */
+    width: 20px; /* Tamaño de las bolas */
 }
 
 .loader:before {
-    animation: ball1 1s infinite;
-    background-color: #ffffff;
-    box-shadow: 30px 0 0 #167440;
-    margin-bottom: 10px;
+    animation: ball1 1s infinite; /* Animación para la primera bola */
+    background-color: #ffffff; /* Blanco para la primera bola */
+    box-shadow: 30px 0 0 #167440; /* Sombra para la segunda bola (verde oscuro) */
+    margin-bottom: 10px; /* Espacio inferior */
 }
 
 .loader:after {
-    animation: ball2 1s infinite;
-    background-color: #167440;
-    box-shadow: 30px 0 0 #ffffff;
+    animation: ball2 1s infinite; /* Animación para la segunda bola */
+    background-color: #167440; /* Verde oscuro para la segunda bola */
+    box-shadow: 30px 0 0 #ffffff; /* Sombra para la primera bola (blanco) */
 }
 
 @keyframes rotate {
-    0% { transform: rotate(0deg) scale(0.8); }
-    50% { transform: rotate(360deg) scale(1.2); }
-    100% { transform: rotate(720deg) scale(0.8); }
+    0% { transform: rotate(0deg) scale(0.8); } /* Inicio de la rotación */
+    50% { transform: rotate(360deg) scale(1.2); } /* Mitad de la rotación, más grande */
+    100% { transform: rotate(720deg) scale(0.8); } /* Fin de la rotación, vuelta al tamaño inicial */
 }
 
 @keyframes ball1 {
     0% {
-        box-shadow: 30px 0 0 #167440;
+        box-shadow: 30px 0 0 #167440; /* Posición inicial de la sombra */
     }
     50% {
-        box-shadow: 0 0 0 #167440;
-        margin-bottom: 0;
-        transform: translate(15px, 15px);
+        box-shadow: 0 0 0 #167440; /* Desaparece la sombra */
+        margin-bottom: 0; /* Sin margen inferior */
+        transform: translate(15px, 15px); /* Movimiento hacia arriba y derecha */
     }
     100% {
-        box-shadow: 30px 0 0 #167440;
-        margin-bottom: 10px;
+        box-shadow: 30px 0 0 #167440; /* Regresa a la posición inicial */
+        margin-bottom: 10px; /* Regresa al margen inferior */
     }
 }
 
 @keyframes ball2 {
     0% {
-        box-shadow: 30px 0 0 #ffffff;
+        box-shadow: 30px 0 0 #ffffff; /* Posición inicial de la sombra */
     }
     50% {
-        box-shadow: 0 0 0 #ffffff;
-        margin-top: -20px;
-        transform: translate(15px, 15px);
+        box-shadow: 0 0 0 #ffffff; /* Desaparece la sombra */
+        margin-top: -20px; /* Sube la bola */
+        transform: translate(15px, 15px); /* Movimiento hacia arriba y derecha */
     }
     100% {
-        box-shadow: 30px 0 0 #ffffff;
-        margin-top: 0;
+        box-shadow: 30px 0 0 #ffffff; /* Regresa a la posición inicial */
+        margin-top: 0; /* Regresa al margen superior original */
     }
 }
 
-/* Media Queries para móviles */
+/* Media Queries para dispositivos móviles (pantallas hasta 576px) */
 @media (max-width: 576px) {
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.8rem; /* Reduce el tamaño del título principal */
     }
     .accordion-button {
-        font-size: 1rem;
+        font-size: 1rem; /* Reduce el tamaño del texto en los botones del acordeón */
     }
     .fixed-cart {
-        padding: 10px;
-        font-size: 0.9rem;
+        padding: 10px; /* Reduce el padding del carrito fijo */
+        font-size: 0.9rem; /* Reduce el tamaño del texto en el carrito */
     }
     header h1 {
-        font-size: 1.2rem;
+        font-size: 1.2rem; /* Reduce el tamaño del título en el header */
     }
     header p {
-        font-size: 0.9rem;
+        font-size: 0.9rem; /* Reduce el tamaño del texto en el header */
     }
     .container {
-        margin-top: 120px;
+        margin-top: 120px; /* Ajusta el margen superior para evitar solapamiento */
     }
 }
 
-/* Pantalla de bienvenida */
+/* Estilos para la pantalla de bienvenida */
 .welcome-screen {
-    position: fixed;
+    position: fixed; /* Fija la pantalla en la ventana */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100vh;
-    background-image: url('/images/background-looki.png');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+    width: 100%; /* Ocupa todo el ancho */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    background-image: url('/images/background-looki.png'); /* Imagen de fondo */
+    background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    display: flex; /* Usa flexbox para centrar contenido */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    z-index: 2000; /* Asegura que esté sobre otros elementos */
 }
 
 .welcome-content {
-    text-align: center;
-    color: #ffffff;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
+    text-align: center; /* Centra el texto */
+    color: #ffffff; /* Texto blanco para contraste con el fondo */
+    padding: 20px; /* Espaciado interno */
+    background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente oscuro */
+    border-radius: 15px; /* Bordes redondeados */
 }
 
 .welcome-content h2 {
-    color: #ffffff;
+    color: #ffffff; /* Texto blanco para consistencia */
 }
 
 .welcome-content img.logo {
-    max-width: 150px;
-    margin-bottom: 20px;
+    max-width: 150px; /* Limita el tamaño del logo */
+    margin-bottom: 20px; /* Espacio inferior */
 }
 
 .welcome-content h2 {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    line-height: 1.5;
+    font-size: 1.5rem; /* Tamaño legible para el mensaje de bienvenida */
+    margin-bottom: 30px; /* Espacio inferior */
+    line-height: 1.5; /* Espaciado entre líneas para mejor legibilidad */
 }
 
-/* Botón Loki */
+/* Estilos para el botón de ingreso (btn-loki) */
 .btn-loki {
-    background-color: #1b4332;
-    color: #ffd60a;
-    border: 2px solid #ffd60a;
-    font-family: 'Baron Neue', sans-serif;
-    font-size: 1.2rem;
-    padding: 10px 30px;
-    border-radius: 25px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background-color: #1b4332; /* Verde oscuro para el botón */
+    color: #ffd60a; /* Texto amarillo para contraste */
+    border: 2px solid #ffd60a; /* Borde amarillo para destacar */
+    font-family: 'Baron Neue', sans-serif; /* Fuente consistente */
+    font-size: 1.2rem; /* Tamaño legible */
+    padding: 10px 30px; /* Espaciado interno */
+    border-radius: 25px; /* Bordes redondeados */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    cursor: pointer; /* Cambia el cursor para indicar interactividad */
+    transition: all 0.3s ease; /* Transición suave para todos los cambios */
 }
 
 .btn-loki:hover {
-    background-color: #ffd60a;
-    color: #1b4332;
-    box-shadow: 0 0 15px rgba(255, 214, 10, 0.8);
+    background-color: #ffd60a; /* Fondo amarillo al pasar el cursor */
+    color: #1b4332; /* Texto verde oscuro para contraste */
+    box-shadow: 0 0 15px rgba(255, 214, 10, 0.8); /* Sombra amarilla para efecto de brillo */
 }
 
-/* Clase para ocultar contenido */
+/* Clase para ocultar contenido inicialmente */
 .hidden {
-    display: none;
+    display: none; /* Oculta elementos con esta clase */
 }
 
-/* Ajuste para móviles */
+/* Ajuste para pantallas móviles (hasta 576px) */
 @media (max-width: 576px) {
     .welcome-content h2 {
-        font-size: 1.2rem;
+        font-size: 1.2rem; /* Reduce el tamaño del texto de bienvenida */
     }
     .btn-loki {
-        font-size: 1rem;
-        padding: 8px 20px;
+        font-size: 1rem; /* Reduce el tamaño del botón */
+        padding: 8px 20px; /* Reduce el padding del botón */
     }
     .welcome-content img.logo {
-        max-width: 100px;
+        max-width: 100px; /* Reduce el tamaño del logo */
     }
 }
