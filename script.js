@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     let productoActual = {};
     let tipoEnvio = "";
+    let ultimoElementoFocado = null; // Para guardar el elemento enfocado antes de abrir un modal
 
     // Asegurarse de que la pantalla de bienvenida esté visible y la app oculta al inicio
     welcomeScreen.classList.remove("hidden");
@@ -174,6 +175,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Función para abrir el modal del producto con los detalles
     function abrirModalProducto(producto) {
+        ultimoElementoFocado = document.activeElement; // Guardar el elemento que tenía el foco
         productoActual = { ...producto, cantidad: 1, comentario: "" };
         popupTitulo.textContent = producto.Nombre;
         popupImagen.src = producto.Imagen || 'https://via.placeholder.com/150';
@@ -182,12 +184,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         cantidadInput.value = 1;
         comentarioInput.value = "";
         productoModal.show();
+        setTimeout(() => document.getElementById("btnProceder").focus(), 100); // Enfocar después de abrir
     }
 
     // Evento para el botón "Agregar" en el modal de producto, que abre el modal de personalización
     btnProceder.addEventListener("click", function () {
         productoModal.hide();
         personalizarModal.show();
+        setTimeout(() => document.getElementById("cantidadInput").focus(), 100); // Enfocar después de abrir
     });
 
     // Evento para incrementar la cantidad en el modal de personalización
@@ -210,10 +214,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Muestra un mensaje de confirmación con un ícono de check verde
         document.getElementById('confirmationMessage').innerHTML = `<span style="color: green; font-size: 2rem;">✅</span><br>${productoActual.Nombre} ha sido agregado con éxito!`;
+        personalizarModal.hide(); // Cerrar primero el modal de personalización
         confirmationModal.show();
-        setTimeout(() => confirmationModal.hide(), 1000);
-
-        personalizarModal.hide();
+        setTimeout(() => {
+            confirmationModal.hide();
+            if (ultimoElementoFocado) ultimoElementoFocado.focus(); // Devolver el foco al elemento original
+        }, 1000);
     });
 
     // Función para actualizar y mostrar los productos en el carrito
@@ -333,7 +339,28 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     // Evento para abrir el modal del carrito al hacer clic en "Ver carrito"
-    verCarrito.addEventListener("click", () => carritoModal.show());
+    verCarrito.addEventListener("click", () => {
+        ultimoElementoFocado = document.activeElement;
+        carritoModal.show();
+        setTimeout(() => document.getElementById("nombre").focus(), 100); // Enfocar después de abrir
+    });
+
+    // Gestionar el foco al cerrar modales manualmente
+    document.getElementById("popup").addEventListener("hidden.bs.modal", () => {
+        if (ultimoElementoFocado && !personalizarModal._isShown) ultimoElementoFocado.focus();
+    });
+
+    document.getElementById("personalizar").addEventListener("hidden.bs.modal", () => {
+        if (ultimoElementoFocado && !confirmationModal._isShown) ultimoElementoFocado.focus();
+    });
+
+    document.getElementById("carrito").addEventListener("hidden.bs.modal", () => {
+        if (ultimoElementoFocado) ultimoElementoFocado.focus();
+    });
+
+    document.getElementById("confirmationModal").addEventListener("hidden.bs.modal", () => {
+        if (ultimoElementoFocado) ultimoElementoFocado.focus();
+    });
 
     // Llama a la función para inicializar el carrito al cargar la página
     actualizarCarrito();
