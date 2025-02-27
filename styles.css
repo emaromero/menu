@@ -552,3 +552,7 @@ footer .designed-by {
         max-width: 100px; /* Reduce el tamaño del logo */
     }
 }
+
+#confirmationModal {
+    z-index: 1060; /* Mayor que el z-index por defecto de Bootstrap (1050) */
+}
