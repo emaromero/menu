@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (cupon) mensaje += `Cupón: ${cupon}\n`;
 
         // Abre WhatsApp con el mensaje codificado
-        window.open(`https://wa.me/5491140445556?text=${encodeURIComponent(mensaje)}`);
+        window.open(`https://wa.me/5491148887566?text=${encodeURIComponent(mensaje)}`);
     });
 
     // Evento para abrir el modal del carrito al hacer clic en "Ver carrito"
